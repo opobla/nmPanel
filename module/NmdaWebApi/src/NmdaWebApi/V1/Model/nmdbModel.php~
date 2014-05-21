@@ -1,0 +1,63 @@
+<?php 
+namespace NmdaWebApi\V1\Model; 
+
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Expression;
+
+use Zend\Db\Sql\Select;
+use Zend\Db\Adapter\AdapterInterface; 
+use Zend\Paginator\Adapter\DbSelect; 
+ 
+class nmdbModel {
+    protected $adapter;
+
+    public function __construct(AdapterInterface $adapter)
+    {
+        $this->adapter = $adapter;
+    }
+    public function uncorrectedRawInterval($start,$finish){
+	return array($start,$finish);
+	$sql = "SELECT * FROM CALM_ori WHERE start_date_time between '".$start."' and '".$finish."';";
+	$result = $this->adapter->query($sql)->execute();
+
+	$resultSet = new ResultSet;
+	$resultSet->initialize($result);
+
+	return $resultSet;
+
+    }
+
+    public function uncorrectedGroupedInterval($start,$finish,$interval){
+
+	$sql = "SELECT start_date_time as time, 
+	avg(measured_uncorrected)+std(measured_uncorrected) as measured_uncorrected_open, max(measured_uncorrected) as measured_uncorrected_max, min(measured_uncorrected) as measured_uncorrected_min, avg(measured_uncorrected)-std(measured_uncorrected) as measured_uncorrected_close, 
+	
+	avg(measured_corr_for_pressure)+std(measured_corr_for_pressure) as measured_corr_for_pressure_open, max(measured_corr_for_pressure) as measured_corr_for_pressure_max, min(measured_corr_for_pressure) as measured_corr_for_pressure_min, avg(measured_corr_for_pressure)-std(measured_corr_for_pressure) as measured_corr_for_pressure_close,
+	
+	avg(measured_corr_for_efficiency)+std(measured_corr_for_efficiency) as measured_corr_for_efficiency_open, max(measured_corr_for_efficiency) as measured_corr_for_efficiency_max, min(measured_corr_for_efficiency) as measured_corr_for_efficiency_min, avg(measured_corr_for_efficiency)-std(measured_corr_for_efficiency) as measured_corr_for_efficiency_close,
+
+	avg(measured_pressure_mbar) as measured_pressure_mbar_avg
+
+	from (select CALM_ori.*, ROUND(UNIX_TIMESTAMP(start_date_time)/(".$interval.")) as timekey  from CALM_ori where start_date_time between '".$start."' and '".$finish."')as t1 group by timekey;";
+
+	$result = $this->adapter->query($sql)->execute();
+
+	$resultSet = new ResultSet;
+	$resultSet->initialize($result);
+
+	return $resultSet;
+
+    }
+
+    public function uncorrectedGroupedAll($points){
+	$sqlFirst= "SELECT start_date_time FROM CALM_ori LIMIT 1";
+	$sqlLast= "SELECT start_date_time FROM CALM_ori ORDER  BY start_date_time DESC LIMIT 1";
+
+	$start= $this->adapter->query($sqlFirst)->execute()[0]->start_date_time;	 
+	$finish= $this->adapter->query($sqlLast)->execute()[0]->start_date_time;
+
+	$interval=round((strtotime($finish)-strtotime($start))/($points-1));
+
+	return $this->uncorrectedGroupedInterval($start,$finish,$interval);
+    }
+}
