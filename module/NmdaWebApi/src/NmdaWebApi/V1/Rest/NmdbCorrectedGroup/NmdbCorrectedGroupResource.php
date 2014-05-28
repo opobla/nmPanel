@@ -6,10 +6,10 @@ use ZF\Rest\AbstractResourceListener;
 
 class NmdbCorrectedGroupResource extends AbstractResourceListener
 {
-    protected $db2adapter;
-    public function __construct($db2adapter)
+    protected $model;
+    public function __construct($model)
     {
-	$this->db2adapter= $db2adapter;
+	$this->model= $model;
 	date_default_timezone_set("UTC");
     } 
     /**
@@ -69,18 +69,14 @@ class NmdbCorrectedGroupResource extends AbstractResourceListener
 		$points=$this->getEvent()->getRouteMatch()->getParam('points');
 
 		if($start=='all' || $finish=='all'){
-			$model=new \NmdaWebApi\V1\Model\nmdbModel($this->db2adapter);
-					
-			$data=$model->correctedGroupedAll($points);
+			$data=$this->model->correctedGroupedAll($points);
 		}else{
 			$interval =round(($finish-$start)/($points-1));
 		
 			$start = date("Y-m-d H:i:s",$start);
 			$finish = date("Y-m-d H:i:s",$finish);
 
-			$model=new \NmdaWebApi\V1\Model\nmdbModel($this->db2adapter);
-		
-			$data=$model->correctedGroupedInterval($start,$finish,$interval);
+			$data=$this->model->correctedGroupedInterval($start,$finish,$interval);
 		}
 
 		$dataHs=array();

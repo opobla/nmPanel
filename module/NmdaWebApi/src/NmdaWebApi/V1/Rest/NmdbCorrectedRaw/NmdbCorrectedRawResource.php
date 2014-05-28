@@ -6,10 +6,10 @@ use ZF\Rest\AbstractResourceListener;
 
 class NmdbCorrectedRawResource extends AbstractResourceListener
 {
-    protected $db2adapter;
-    public function __construct($db2adapter)
+    protected $model;
+    public function __construct($model)
     {
-	$this->db2adapter= $db2adapter;
+	$this->model= $model;
 	date_default_timezone_set("UTC"); 
     }
     /**
@@ -70,9 +70,7 @@ class NmdbCorrectedRawResource extends AbstractResourceListener
 		$start = date("Y-m-d H:i:s",$start);
 		$finish = date("Y-m-d H:i:s",$finish);
 
-		$model=new \NmdaWebApi\V1\Model\nmdbModel($this->db2adapter);
-		
-		$data=$model->correctedRawInterval($start,$finish);
+		$data=$this->model->correctedRawInterval($start,$finish);
 		$dataHs=array();
 		
 		foreach ($data as $row){

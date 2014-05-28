@@ -1,16 +1,16 @@
 <?php
-namespace NmdaWebApi\V1\Rest\NmdbUncorrectedGroup;
+namespace NmdaWebApi\V1\Rest\NmdbMarkNull;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class NmdbUncorrectedGroupResource extends AbstractResourceListener
+class NmdbMarkNullResource extends AbstractResourceListener
 {
     protected $model;
     public function __construct($model)
     {
 	$this->model= $model;
-	date_default_timezone_set("UTC"); 
+	date_default_timezone_set("UTC");
     }
     /**
      * Create a resource
@@ -19,8 +19,17 @@ class NmdbUncorrectedGroupResource extends AbstractResourceListener
      * @return ApiProblem|mixed
      */
     public function create($data)
-    {
-        return new ApiProblem(405, 'The POST method has not been defined');
+    {	
+	$dates=array();
+	if($data->start_date_time != false){
+		$dates[0]=$data->start_date_time;	
+	}else{
+		foreach($data as $entry){
+			$dates[]=$entry['start_date_time'];
+		}
+	} 
+	$response=$this->model->marknull($dates);
+	return array('success'=>$response,'id'=>1);	
     }
 
     /**
@@ -64,52 +73,7 @@ class NmdbUncorrectedGroupResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-		$start=$this->getEvent()->getRouteMatch()->getParam('start');
-		$finish=$this->getEvent()->getRouteMatch()->getParam('finish');
-		$points=$this->getEvent()->getRouteMatch()->getParam('points');
-
-		if($start=='all' || $finish=='all'){
-			$data=$this->model->uncorrectedGroupedAll($points);
-		}else{
-			$interval =round(($finish-$start)/($points-1));
-		
-			$start = date("Y-m-d H:i:s",$start);
-			$finish = date("Y-m-d H:i:s",$finish);
-
-			$data=$this->model->uncorrectedGroupedInterval($start,$finish,$interval);
-		}
-
-		$dataHs=array();
-
-		foreach ($data as $row){
-				$dataHs[0][]=array(
-					strtotime($row->time)*1000,
-					$this->handleFloat($row->measured_uncorrected_open),
-					$this->handleFloat($row->measured_uncorrected_max),
-					$this->handleFloat($row->measured_uncorrected_min),
-					$this->handleFloat($row->measured_uncorrected_close),
-				);
-				$dataHs[1][]=array(
-					strtotime($row->time)*1000,
-					$this->handleFloat($row->measured_corr_for_pressure_open),
-					$this->handleFloat($row->measured_corr_for_pressure_max),
-					$this->handleFloat($row->measured_corr_for_pressure_min),
-					$this->handleFloat($row->measured_corr_for_pressure_close),
-				);
-				$dataHs[2][]=array(
-					strtotime($row->time)*1000,
-					$this->handleFloat($row->measured_corr_for_efficiency_open),
-					$this->handleFloat($row->measured_corr_for_efficiency_max),
-					$this->handleFloat($row->measured_corr_for_efficiency_min),
-					$this->handleFloat($row->measured_corr_for_efficiency_close),
-				);
-				$dataHs[3][]=array(
-					strtotime($row->time)*1000,
-					$this->handleFloat($row->measured_pressure_mbar_avg),
-				);
-			}
-
-		return $dataHs;
+        return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
     /**
@@ -146,9 +110,4 @@ class NmdbUncorrectedGroupResource extends AbstractResourceListener
     {
         return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
-
-	function handleFloat($value){
-		if($value==null)return null;
-		return (float)$value;
-	}
 }

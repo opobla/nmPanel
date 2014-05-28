@@ -7,12 +7,12 @@ use ZF\Rest\AbstractResourceListener;
 class NmdadbRawDataResource extends AbstractResourceListener
 {
 
-    protected $db1adapter;
- 
-    public function __construct($db1adapter)
+    protected $model;
+
+    public function __construct($model)
     {
-        $this->db1adapter = $db1adapter;
-		date_default_timezone_set("UTC");
+        $this->model= $model;
+	date_default_timezone_set("UTC");
     }
 
     /**
@@ -72,10 +72,8 @@ class NmdadbRawDataResource extends AbstractResourceListener
 
 		$start = date("Y-m-d H:i:s",$start);
 		$finish = date("Y-m-d H:i:s",$finish);
-
-		$model=new \NmdaWebApi\V1\Model\nmdadbModel($this->db1adapter);
 		
-		$data=$model->interval($start,$finish);
+		$data=$this->model->interval($start,$finish);
 		$dataHs=array();
 		
 		foreach ($data as $row){

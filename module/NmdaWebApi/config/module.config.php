@@ -81,6 +81,15 @@ return array(
                     ),
                 ),
             ),
+            'nmda-web-api.rest.nmdb-mark-null' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/marknull',
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -91,6 +100,7 @@ return array(
             3 => 'nmda-web-api.rest.nmdb-uncorrected-group',
             4 => 'nmda-web-api.rest.nmdb-corrected-raw',
             5 => 'nmda-web-api.rest.nmdb-corrected-group',
+            6 => 'nmda-web-api.rest.nmdb-mark-null',
         ),
     ),
     'service_manager' => array(
@@ -199,6 +209,22 @@ return array(
             'collection_class' => 'NmdaWebApi\\V1\\Rest\\NmdbCorrectedGroup\\NmdbCorrectedGroupCollection',
             'service_name' => 'nmdbCorrectedGroup',
         ),
+        'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller' => array(
+            'listener' => 'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\NmdbMarkNullResource',
+            'route_name' => 'nmda-web-api.rest.nmdb-mark-null',
+            'route_identifier_name' => 'nmdb_mark_null_id',
+            'collection_name' => 'nmdb_mark_null',
+            'entity_http_methods' => array(),
+            'collection_http_methods' => array(
+                0 => 'POST',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\NmdbMarkNullEntity',
+            'collection_class' => 'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\NmdbMarkNullCollection',
+            'service_name' => 'nmdbMarkNull',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -208,6 +234,7 @@ return array(
             'NmdaWebApi\\V1\\Rest\\NmdbUncorrectedGroup\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdbCorrectedRaw\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdbCorrectedGroup\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -240,6 +267,10 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller' => array(
+                0 => 'application/json',
+                1 => 'application/vnd.nmda-web-api.v1+json',
+            ),
         ),
         'content_type_whitelist' => array(
             'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -259,6 +290,9 @@ return array(
                 0 => 'application/json',
             ),
             'NmdaWebApi\\V1\\Rest\\NmdbCorrectedGroup\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller' => array(
                 0 => 'application/json',
             ),
         ),
@@ -335,6 +369,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'nmda-web-api.rest.nmdb-corrected-group',
                 'route_identifier_name' => 'nmdb_corrected_group_id',
+                'is_collection' => true,
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\NmdbMarkNullEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'nmda-web-api.rest.nmdb-mark-null',
+                'route_identifier_name' => 'nmdb_mark_null_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\NmdbMarkNullCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'nmda-web-api.rest.nmdb-mark-null',
+                'route_identifier_name' => 'nmdb_mark_null_id',
                 'is_collection' => true,
             ),
         ),

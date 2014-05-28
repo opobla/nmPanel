@@ -127,4 +127,12 @@ FROM CALM_ori o LEFT JOIN CALM_rev r ON o.start_date_time = r.start_date_time WH
 	return $this->correctedGroupedInterval($start,$finish,$interval);
     }
 
+    public function marknull($dates){
+	foreach($dates as $start_date_time){
+		$sql="insert into CALM_rev (start_date_time, revised_uncorrected, revised_corr_for_efficiency, revised_corr_for_pressure, revised_pressure_mbar, version, last_change ) values ('".$start_date_time."',null,null,null,null,1,now()) on duplicate key update revised_uncorrected = null, revised_corr_for_efficiency=null, revised_corr_for_pressure=null, revised_pressure_mbar=null, version=version+1, last_change=now();";
+		$this->adapter->query($sql)->execute();
+	}
+	return true;
+    }
+
 }

@@ -16,24 +16,34 @@ class Module implements ApigilityProviderInterface
 			'factories' => array(	
 				'NmdaWebApi\V1\Rest\NmdadbRawData\NmdadbRawDataResource' => function ($sm) {
 					$db1adapter = $sm->get('db1');
-			    		return new \NmdaWebApi\V1\Rest\NmdadbRawData\NmdadbRawDataResource($db1adapter);
+					$model = new \NmdaWebApi\V1\Model\nmdadbModel($db1adapter);
+			    		return new \NmdaWebApi\V1\Rest\NmdadbRawData\NmdadbRawDataResource($model);
 				},
 				
 				'NmdaWebApi\V1\Rest\NmdbUncorrectedRaw\NmdbUncorrectedRawResource' => function ($sm) {
 					$db2adapter = $sm->get('db2');
-			    		return new \NmdaWebApi\V1\Rest\NmdbUncorrectedRaw\NmdbUncorrectedRawResource($db2adapter);
+					$model = new \NmdaWebApi\V1\Model\nmdbModel($db2adapter);
+			    		return new \NmdaWebApi\V1\Rest\NmdbUncorrectedRaw\NmdbUncorrectedRawResource($model);
 				},
 				'NmdaWebApi\V1\Rest\NmdbUncorrectedGroup\NmdbUncorrectedGroupResource' => function ($sm) {
 					$db2adapter = $sm->get('db2');
-			    		return new \NmdaWebApi\V1\Rest\NmdbUncorrectedGroup\NmdbUncorrectedGroupResource($db2adapter);
+					$model = new \NmdaWebApi\V1\Model\nmdbModel($db2adapter);
+			    		return new \NmdaWebApi\V1\Rest\NmdbUncorrectedGroup\NmdbUncorrectedGroupResource($model);
 				},
 				'NmdaWebApi\V1\Rest\NmdbCorrectedRaw\NmdbCorrectedRawResource' => function ($sm) {
 					$db2adapter = $sm->get('db2');
-			    		return new \NmdaWebApi\V1\Rest\NmdbCorrectedRaw\NmdbCorrectedRawResource($db2adapter);
+					$model = new \NmdaWebApi\V1\Model\nmdbModel($db2adapter);
+			    		return new \NmdaWebApi\V1\Rest\NmdbCorrectedRaw\NmdbCorrectedRawResource($model);
 				},
 				'NmdaWebApi\V1\Rest\NmdbCorrectedGroup\NmdbCorrectedGroupResource' => function ($sm) {
 					$db2adapter = $sm->get('db2');
-			    		return new \NmdaWebApi\V1\Rest\NmdbCorrectedGroup\NmdbCorrectedGroupResource($db2adapter);
+					$model = new \NmdaWebApi\V1\Model\nmdbModel($db2adapter);
+			    		return new \NmdaWebApi\V1\Rest\NmdbCorrectedGroup\NmdbCorrectedGroupResource($model);
+				},
+				'NmdaWebApi\V1\Rest\NmdbMarkNull\NmdbMarkNullResource' => function ($sm) {
+					$db2adapter = $sm->get('db2');
+					$model = new \NmdaWebApi\V1\Model\nmdbModel($db2adapter);
+			    		return new \NmdaWebApi\V1\Rest\NmdbMarkNull\NmdbMarkNullResource($model);
 				},
 			    	'NmdaWebApi\V1\Rest\Hola\HolaResource' => function ($sm) {
 			    		return new \NmdaWebApi\V1\Rest\Hola\HolaResource();
