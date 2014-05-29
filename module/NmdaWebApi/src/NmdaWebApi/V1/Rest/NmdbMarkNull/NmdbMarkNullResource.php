@@ -29,7 +29,7 @@ class NmdbMarkNullResource extends AbstractResourceListener
 		}
 	} 
 	$response=$this->model->marknull($dates);
-	return array('success'=>$response,'id'=>1);	
+	return array('success'=>$response,'id'=>1,'messege'=>'Data successfully updated');	
     }
 
     /**
