@@ -90,6 +90,19 @@ return array(
                     ),
                 ),
             ),
+            'nmda-web-api.rest.nmdadb-channel-stats' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdadb/channel/stats[/:start][/:finish]',
+                    'constraints' => array(
+                        'start' => '[0-9]*|default',
+                        'finish' => '[0-9]*|default',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -101,10 +114,12 @@ return array(
             4 => 'nmda-web-api.rest.nmdb-corrected-raw',
             5 => 'nmda-web-api.rest.nmdb-corrected-group',
             6 => 'nmda-web-api.rest.nmdb-mark-null',
+            7 => 'nmda-web-api.rest.nmdadb-channel-stats',
         ),
     ),
     'service_manager' => array(
-        'factories' => array(),
+        'factories' => array(
+        ),
     ),
     'zf-rest' => array(
         'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -225,6 +240,22 @@ return array(
             'collection_class' => 'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\NmdbMarkNullCollection',
             'service_name' => 'nmdbMarkNull',
         ),
+        'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\Controller' => array(
+            'listener' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\NmdadbChannelStatsResource',
+            'route_name' => 'nmda-web-api.rest.nmdadb-channel-stats',
+            'route_identifier_name' => 'nmdadb_channel_stats_id',
+            'collection_name' => 'nmdadb_channel_stats',
+            'entity_http_methods' => array(),
+            'collection_http_methods' => array(
+                0 => 'GET',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\NmdadbChannelStatsEntity',
+            'collection_class' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\NmdadbChannelStatsCollection',
+            'service_name' => 'nmdadbChannelStats',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -235,6 +266,7 @@ return array(
             'NmdaWebApi\\V1\\Rest\\NmdbCorrectedRaw\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdbCorrectedGroup\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -271,6 +303,11 @@ return array(
                 0 => 'application/json',
                 1 => 'application/vnd.nmda-web-api.v1+json',
             ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -293,6 +330,9 @@ return array(
                 0 => 'application/json',
             ),
             'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\Controller' => array(
                 0 => 'application/json',
             ),
         ),
@@ -381,6 +421,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'nmda-web-api.rest.nmdb-mark-null',
                 'route_identifier_name' => 'nmdb_mark_null_id',
+                'is_collection' => true,
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\NmdadbChannelStatsEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'nmda-web-api.rest.nmdadb-channel-stats',
+                'route_identifier_name' => 'nmdadb_channel_stats_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\NmdadbChannelStatsCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'nmda-web-api.rest.nmdadb-channel-stats',
+                'route_identifier_name' => 'nmdadb_channel_stats_id',
                 'is_collection' => true,
             ),
         ),

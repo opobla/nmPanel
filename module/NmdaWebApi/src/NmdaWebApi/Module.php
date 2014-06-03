@@ -27,6 +27,11 @@ class Module implements ApigilityProviderInterface
 					$model = $sm->get('NmdaWebApi\V1\Model\nmdadbModel');
 			    		return new \NmdaWebApi\V1\Rest\NmdadbRawData\NmdadbRawDataResource($model);
 				},
+				'NmdaWebApi\V1\Rest\NmdadbChannelStats\NmdadbChannelStatsResource' => function ($sm) {
+					$db1adapter = $sm->get('db1');
+					$model = $sm->get('NmdaWebApi\V1\Model\nmdadbModel');
+			    		return new \NmdaWebApi\V1\Rest\NmdadbChannelStats\NmdadbChannelStatsResource($model);
+				},
 				
 				'NmdaWebApi\V1\Rest\NmdbUncorrectedRaw\NmdbUncorrectedRawResource' => function ($sm) {
 					$db2adapter = $sm->get('db2');
