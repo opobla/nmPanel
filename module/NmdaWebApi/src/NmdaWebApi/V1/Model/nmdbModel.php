@@ -64,7 +64,7 @@ class nmdbModel {
 
 	$interval=round((strtotime($finish)-strtotime($start))/($points-1));
 
-	return $this->uncorrectedGroupedInterval($start,$finish,$interval);
+	return array($this->uncorrectedGroupedInterval($start,$finish,$interval), $finish);
     }
     public function correctedRawInterval($start,$finish){	
 	$sql = "SELECT o.start_date_time,
@@ -124,7 +124,7 @@ FROM CALM_ori o LEFT JOIN CALM_rev r ON o.start_date_time = r.start_date_time WH
 
 	$interval=round((strtotime($finish)-strtotime($start))/($points-1));
 
-	return $this->correctedGroupedInterval($start,$finish,$interval);
+	return array($this->correctedGroupedInterval($start,$finish,$interval), $finish);
     }
 
     public function marknull($dates){

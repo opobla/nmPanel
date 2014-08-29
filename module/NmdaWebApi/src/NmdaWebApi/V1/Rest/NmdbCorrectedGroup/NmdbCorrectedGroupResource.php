@@ -69,7 +69,9 @@ class NmdbCorrectedGroupResource extends AbstractResourceListener
 		$points=$this->getEvent()->getRouteMatch()->getParam('points');
 
 		if($start=='all' || $finish=='all'){
-			$data=$this->model->correctedGroupedAll($points);
+			$aux=$this->model->correctedGroupedAll($points);
+			$data=$aux[0];
+			$last=$aux[1];
 		}else{
 			$interval =round(($finish-$start)/($points-1));
 		
@@ -107,8 +109,14 @@ class NmdbCorrectedGroupResource extends AbstractResourceListener
 					strtotime($row->time)*1000,
 					$this->handleFloat($row->pressure_mbar_avg),
 				);
-			}
-
+		}
+		
+		if($start=='all' || $finish=='all'){
+			array_push($dataHs[0], array((strtotime($last)+60*60*3)*1000, null, null, null, null ));
+			array_push($dataHs[1], array((strtotime($last)+60*60*3)*1000, null, null, null, null ));
+			array_push($dataHs[2], array((strtotime($last)+60*60*3)*1000, null, null, null, null ));
+			array_push($dataHs[3], array((strtotime($last)+60*60*3)*1000, null, null ));
+		}
 		return $dataHs;
     }
 
