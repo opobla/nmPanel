@@ -207,17 +207,6 @@ class NmdadbChannelStatsResource extends AbstractResourceListener
 	$dataExtJs[16]['min']=(int)$the_row->min_ch17;
 	$dataExtJs[17]['min']=(int)$the_row->min_ch18;
 
-	/*foreach($data as $chan){
-		$dataExtJs[]=array(
-			'channel'=>$chan->channel,
-			'last'=>(int)$chan->last,
-			'average'=>(float)$chan->average,
-			'std'=>(float)$chan->std,
-			'max'=>(int)$chan->max,
-			'min'=>(int)$chan->min,
-		);
-	}*/
-
 	return $dataExtJs;
 
     }
