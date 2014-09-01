@@ -64,7 +64,7 @@ class nmdbModel {
 
 	$interval=round((strtotime($finish)-strtotime($start))/($points-1));
 
-	return array($this->uncorrectedGroupedInterval($start,$finish,$interval), $finish);
+	return $this->uncorrectedGroupedInterval($start,$finish,$interval);
     }
     public function correctedRawInterval($start,$finish){	
 	$sql = "SELECT o.start_date_time,
@@ -124,7 +124,7 @@ FROM CALM_ori o LEFT JOIN CALM_rev r ON o.start_date_time = r.start_date_time WH
 
 	$interval=round((strtotime($finish)-strtotime($start))/($points-1));
 
-	return array($this->correctedGroupedInterval($start,$finish,$interval), $finish);
+	return $this->correctedGroupedInterval($start,$finish,$interval);
     }
 
     public function marknull($dates){
@@ -133,6 +133,15 @@ FROM CALM_ori o LEFT JOIN CALM_rev r ON o.start_date_time = r.start_date_time WH
 		$this->adapter->query($sql)->execute();
 	}
 	return true;
+    }
+
+    public function getLast(){
+	$sqlLast= "SELECT start_date_time FROM CALM_ori ORDER  BY start_date_time DESC LIMIT 1";
+	$result= $this->adapter->query($sqlLast)->execute();
+	$resultSet = new ResultSet;
+	$resultSet->initialize($result);
+	$finish= $resultSet->current()->start_date_time;
+	return $finish;
     }
 
 }

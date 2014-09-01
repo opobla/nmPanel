@@ -69,9 +69,8 @@ class NmdbUncorrectedGroupResource extends AbstractResourceListener
 		$points=$this->getEvent()->getRouteMatch()->getParam('points');
 
 		if($start=='all' || $finish=='all'){
-			$aux=$this->model->uncorrectedGroupedAll($points);
-			$data=$aux[0];
-			$last=$aux[1];
+			$data=$this->model->uncorrectedGroupedAll($points);
+			$last=$this->model->getLast();
 		}else{
 			$interval =round(($finish-$start)/($points-1));
 		
