@@ -69,7 +69,7 @@ class nmdadbModel {
    }
 
    public function histogram($start, $finish, $channel){
-   	$sql = "select chh as num, count(chh) as val from (select ch div 5 as chh  from (select ".$channel." as ch from binTable where (start_date_time between '".$start."' and '".$finish."') and (".$channel.">150) and (".$channel."<450)) as t1) as t2 group by chh order by num;";
+   	$sql = "select chh as num, count(chh) as val from (select ch div 5 as chh  from (select ".$channel." as ch from binTable where start_date_time between '".$start."' and '".$finish."') as t1) as t2 group by chh order by num;";
 	$result_mid = $this->adapter->query($sql)->execute();
 
 	$resultSet_mid = new ResultSet;
@@ -87,6 +87,7 @@ class nmdadbModel {
 	$resultSet_high = new ResultSet;
     	$resultSet_high->initialize($result_high);
 
+	return $resultSet_mid;
 	return array($resultSet_low, $resultSet_mid, $resultSet_high);
    }
    
@@ -102,5 +103,51 @@ class nmdadbModel {
 	
 	return $this->histogram($start,$finish,$channel);
    }
+
+   public function average_chann($start, $finish, $channel){
+	$sql= "select avg(".$channel.") as avg_chann from binTable where start_date_time between '".$start."' and '".$finish."';";
+	$result = $this->adapter->query($sql)->execute();
+
+	$resultSet = new ResultSet;
+	$resultSet->initialize($result);
+
+	return $resultSet->current()->avg_chann;
+   }
+
+   public function average_channDefault($channel){
+   	$sqlLast= "SELECT start_date_time FROM binTable ORDER  BY start_date_time DESC LIMIT 1";
+	
+	$result= $this->adapter->query($sqlLast)->execute();
+	$resultSet = new ResultSet;
+	$resultSet->initialize($result);
+	$finish= $resultSet->current()->start_date_time;
+	$start= date("Y-m-d H:i:s",strtotime($finish)-60*60*24*30);
+
+	return $this->average_chann($start, $finish, $channel);
+   }
+
+   public function sorted_chann($start, $finish, $channel){
+   	$sql= "select ".$channel." as chann from (select ".$channel." from binTable where start_date_time between '".$start."' and '".$finish."')as t1 order by ".$channel.";";
+
+	$result = $this->adapter->query($sql)->execute();
+
+	$resultSet = new ResultSet;
+	$resultSet->initialize($result);
+
+	return $resultSet;
+   }
+
+   public function sorted_channDefault($channel){
+   	$sqlLast= "SELECT start_date_time FROM binTable ORDER  BY start_date_time DESC LIMIT 1";
+	
+	$result= $this->adapter->query($sqlLast)->execute();
+	$resultSet = new ResultSet;
+	$resultSet->initialize($result);
+	$finish= $resultSet->current()->start_date_time;
+	$start= date("Y-m-d H:i:s",strtotime($finish)-60*60*24*30);
+
+	return $this->sorted_chann($start, $finish, $channel);
+   }
+
 }
  

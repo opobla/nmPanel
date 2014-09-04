@@ -116,6 +116,19 @@ return array(
                     ),
                 ),
             ),
+            'nmda-web-api.rest.nmdadb-channel-histogram-relative' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdadb/channel/histogramRelative[/:start][/:finish]',
+		    'constraints' => array(
+                        'start' => '[0-9]*|default',
+                        'finish' => '[0-9]*|default',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -129,6 +142,7 @@ return array(
             6 => 'nmda-web-api.rest.nmdb-mark-null',
             7 => 'nmda-web-api.rest.nmdadb-channel-stats',
             8 => 'nmda-web-api.rest.nmdb-channel-histogram',
+            9 => 'nmda-web-api.rest.nmdadb-channel-histogram-relative',
         ),
     ),
     'service_manager' => array(
@@ -286,6 +300,22 @@ return array(
             'collection_class' => 'NmdaWebApi\\V1\\Rest\\NmdbChannelHistogram\\NmdbChannelHistogramCollection',
             'service_name' => 'nmdbChannelHistogram',
         ),
+        'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\Controller' => array(
+            'listener' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\NmdadbChannelHistogramRelativeResource',
+            'route_name' => 'nmda-web-api.rest.nmdadb-channel-histogram-relative',
+            'route_identifier_name' => 'nmdadb_channel_histogram_relative_id',
+            'collection_name' => 'nmdadb_channel_histogram_relative',
+            'entity_http_methods' => array(),
+            'collection_http_methods' => array(
+                0 => 'GET',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\NmdadbChannelHistogramRelativeEntity',
+            'collection_class' => 'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\NmdadbChannelHistogramRelativeCollection',
+            'service_name' => 'nmdadbChannelHistogramRelative',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -298,6 +328,7 @@ return array(
             'NmdaWebApi\\V1\\Rest\\NmdbMarkNull\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdadbChannelStats\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdbChannelHistogram\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -344,6 +375,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -372,6 +408,10 @@ return array(
                 0 => 'application/json',
             ),
             'NmdaWebApi\\V1\\Rest\\NmdbChannelHistogram\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\Controller' => array(
                 0 => 'application/vnd.nmda-web-api.v1+json',
                 1 => 'application/json',
             ),
@@ -485,6 +525,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'nmda-web-api.rest.nmdb-channel-histogram',
                 'route_identifier_name' => 'nmdb_channel_histogram_id',
+                'is_collection' => true,
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\NmdadbChannelHistogramRelativeEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'nmda-web-api.rest.nmdadb-channel-histogram-relative',
+                'route_identifier_name' => 'nmdadb_channel_histogram_relative_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'NmdaWebApi\\V1\\Rest\\NmdadbChannelHistogramRelative\\NmdadbChannelHistogramRelativeCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'nmda-web-api.rest.nmdadb-channel-histogram-relative',
+                'route_identifier_name' => 'nmdadb_channel_histogram_relative_id',
                 'is_collection' => true,
             ),
         ),
