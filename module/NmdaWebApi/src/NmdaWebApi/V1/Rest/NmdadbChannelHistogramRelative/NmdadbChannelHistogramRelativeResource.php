@@ -105,31 +105,7 @@ class NmdadbChannelHistogramRelativeResource extends AbstractResourceListener
 			}
 		}
 
-		/*
-		$sorted=array();	
-		foreach($sorted_data as $row){
-			$sorted[]=$row->chann;
-		}
-
-		$histo=array_fill(0, 40, 0);
-		$act=0;
-		$ini=0.62;
-		$inc=0.02;
-		$y=0;
-		while($y<sizeof($sorted)){
-			if($sorted[$y]<(($ini+$inc*$act)*$avg)){
-				$histo[$act]+=1;
-				$y++;
-			}else{
-				$act+=1;
-				if ($act==39){
-					$histo[$act]=sizeof($sorted)-$y;
-					break;
-				}
-			}
-
-		}*/
-
+		
 		$the_sum=array_sum($histo);
 		for($y=0; $y<sizeof($histo); $y++){
 			$histo[$y]=($histo[$y]/$the_sum)*100;
