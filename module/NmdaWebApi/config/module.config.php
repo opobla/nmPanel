@@ -120,7 +120,7 @@ return array(
                 'type' => 'Segment',
                 'options' => array(
                     'route' => '/nmdadb/channel/histogramRelative[/:start][/:finish]',
-		    'constraints' => array(
+                    'constraints' => array(
                         'start' => '[0-9]*|default',
                         'finish' => '[0-9]*|default',
                     ),
@@ -146,8 +146,7 @@ return array(
         ),
     ),
     'service_manager' => array(
-        'factories' => array(
-        ),
+        'factories' => array(),
     ),
     'zf-rest' => array(
         'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => array(
@@ -319,7 +318,7 @@ return array(
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
-            'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => 'HalJson',
+            'NmdaWebApi\\V1\\Rest\\Hola\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdadbRawData\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdbUncorrectedRaw\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rest\\NmdbUncorrectedGroup\\Controller' => 'Json',

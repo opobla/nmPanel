@@ -47,7 +47,8 @@ class HolaResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resourcesYYYU '.$id);
+	return array('Hola Mundo :)');
+	return new ApiProblem(405, 'The GET method has not been defined for individual resourcesYYYU '.$id);
     }
 
     /**
@@ -58,6 +59,7 @@ class HolaResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
+	return array('Hola Mundo :)');
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }
 
