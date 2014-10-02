@@ -91,6 +91,11 @@ class NmdbChannelHistogramResource extends AbstractResourceListener
 			$dataExtJs[$i][]=array((int)$row->num, (int)$row->val);
 		}
 
+		if ($dataExtJs[$i]==null){
+			$dataExtJs2[$i]=array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0); 
+			continue;
+		}
+
 		$the_new=array();
 		$the_next=0;
 		$y=0;
