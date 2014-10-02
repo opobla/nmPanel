@@ -75,42 +75,34 @@ class NmdadbChannelHistogramRelativeResource extends AbstractResourceListener
 
 		if($start=='default' || $finish=='default'){
 			$avg=$this->model->average_channDefault($aux);
-			$sorted_data=$this->model->sorted_channDefault($aux);	
+			$sorted_data=$this->model->sorted_channDefault($aux, $avg);	
 		}else{
 			$new_start = date("Y-m-d H:i:s",$start);
 			$new_finish = date("Y-m-d H:i:s",$finish);
 
 			$avg=$this->model->average_chann($new_start, $new_finish, $aux);
-			$sorted_data=$this->model->sorted_chann($new_start, $new_finish, $aux);
+			$sorted_data=$this->model->sorted_chann($new_start, $new_finish, $aux, $avg);
 		}
 
 
-		$histo=array_fill(0, 40, 0);
-		$act=0;
-		$ini=0.62;
-		$inc=0.02;
-		$y=0;
+		$dataExtJs[$i]=array_fill(0,80,0);
 		foreach($sorted_data as $row){
-			$val=$row->chann;
-			if($val<(($ini+$inc*$act)*$avg)){
-				$histo[$act]+=1;
-				$y++;
-			}else{
-				if($act<39)
-					$act+=1;
-				if ($act==39){
-					$histo[$act]+=1;
-					$y++;
-				}
+			$slice=$row->slice; $val=$row->val;
+			if ($slice <= -40){
+				$dataExtJs[$i][0]+=intval($val);
+				continue;
 			}
+			if ($slice >= 40){
+				$dataExtJs[$i][79]+=intval($val);
+				continue;
+			}
+			$dataExtJs[$i][$slice+40]=intval($val);
 		}
-
 		
-		$the_sum=array_sum($histo);
-		for($y=0; $y<sizeof($histo); $y++){
-			$histo[$y]=($histo[$y]/$the_sum)*100;
+		$the_sum=array_sum($dataExtJs[$i]);
+		for($y=0; $y<sizeof($dataExtJs[$i]); $y++){
+			$dataExtJs[$i][$y]=($dataExtJs[$i][$y]/$the_sum)*100;
 		}
-		$dataExtJs[]=$histo;
 	}
 	return $dataExtJs;
     }

@@ -75,20 +75,7 @@ class nmdadbModel {
 	$resultSet_mid = new ResultSet;
     	$resultSet_mid->initialize($result_mid);
 
-	$sql = "select count(".$channel.") as val from (select ".$channel." from binTable where (start_date_time between '".$start."' and '".$finish."') and ".$channel."<150)as t1;"; 
-	$result_low = $this->adapter->query($sql)->execute();
-
-	$resultSet_low = new ResultSet;
-    	$resultSet_low->initialize($result_low);
-
-	$sql = "select count(".$channel.") as val from (select ".$channel." from binTable where (start_date_time between '".$start."' and '".$finish."') and ".$channel.">450)as t1;";
-	$result_high = $this->adapter->query($sql)->execute();
-
-	$resultSet_high = new ResultSet;
-    	$resultSet_high->initialize($result_high);
-
 	return $resultSet_mid;
-	return array($resultSet_low, $resultSet_mid, $resultSet_high);
    }
    
    public function histogramDefault($channel){
@@ -126,8 +113,10 @@ class nmdadbModel {
 	return $this->average_chann($start, $finish, $channel);
    }
 
-   public function sorted_chann($start, $finish, $channel){
+   public function sorted_chann($start, $finish, $channel, $avg){
    	$sql= "select ".$channel." as chann from (select ".$channel." from binTable where start_date_time between '".$start."' and '".$finish."')as t1 order by ".$channel.";";
+	//$sql= "select ".$channel." as chann from binTable where start_date_time between '".$start."' and '".$finish."';";
+	$sql= "select slice, count(slice) as val from(select floor((".$channel."-(".$avg."))/(".$avg."*0.01)) as slice from (select ".$channel." from binTable where start_date_time between '".$start."' and '".$finish."')as t1)as t2 group by slice;";
 
 	$result = $this->adapter->query($sql)->execute();
 
@@ -137,7 +126,7 @@ class nmdadbModel {
 	return $resultSet;
    }
 
-   public function sorted_channDefault($channel){
+   public function sorted_channDefault($channel, $avg){
    	$sqlLast= "SELECT start_date_time FROM binTable ORDER  BY start_date_time DESC LIMIT 1";
 	
 	$result= $this->adapter->query($sqlLast)->execute();
@@ -146,7 +135,7 @@ class nmdadbModel {
 	$finish= $resultSet->current()->start_date_time;
 	$start= date("Y-m-d H:i:s",strtotime($finish)-60*60*24*30);
 
-	return $this->sorted_chann($start, $finish, $channel);
+	return $this->sorted_chann($start, $finish, $channel, $avg);
    }
 
 }
