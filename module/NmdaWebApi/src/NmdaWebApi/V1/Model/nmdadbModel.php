@@ -114,12 +114,13 @@ class nmdadbModel {
    }
 
    public function sorted_chann($start, $finish, $channel, $avg){
-   	$sql= "select ".$channel." as chann from (select ".$channel." from binTable where start_date_time between '".$start."' and '".$finish."')as t1 order by ".$channel.";";
-	//$sql= "select ".$channel." as chann from binTable where start_date_time between '".$start."' and '".$finish."';";
+	if ($avg==""){
+		return array();
+	}
+	
 	$sql= "select slice, count(slice) as val from(select floor((".$channel."-(".$avg."))/(".$avg."*0.01)) as slice from (select ".$channel." from binTable where start_date_time between '".$start."' and '".$finish."')as t1)as t2 group by slice;";
 
 	$result = $this->adapter->query($sql)->execute();
-
 	$resultSet = new ResultSet;
 	$resultSet->initialize($result);
 
