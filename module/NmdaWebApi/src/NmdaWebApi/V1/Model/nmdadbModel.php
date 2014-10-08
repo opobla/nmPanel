@@ -118,7 +118,7 @@ class nmdadbModel {
 		return array();
 	}
 	
-	$sql= "select slice, count(slice) as val from(select floor((".$channel."-(".$avg."))/(".$avg."*0.01)) as slice from (select ".$channel." from binTable where start_date_time between '".$start."' and '".$finish."')as t1)as t2 group by slice;";
+	$sql= "select slice, count(slice) as val from(select floor((".$channel."-(".$avg."))/(5)) as slice from (select ".$channel." from binTable where start_date_time between '".$start."' and '".$finish."')as t1)as t2 group by slice;";
 
 	$result = $this->adapter->query($sql)->execute();
 	$resultSet = new ResultSet;
