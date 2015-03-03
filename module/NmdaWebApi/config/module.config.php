@@ -1,19 +1,96 @@
 <?php
 return array(
     'router' => array(
-        'routes' => array(),
+        'routes' => array(
+            'nmda-web-api.rpc.hola' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/hola[/:hola_id]',
+                    'constraints' => array(
+                        'hola_id' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\Hola\\Controller',
+                        'action' => 'hola',
+                    ),
+                ),
+            ),
+            'nmda-web-api.rpc.nmdb-uncorrected-raw' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/uncorrected/raw[/:start][/:finish]',
+                    'constraints' => array(
+                        'start' => '[0-9]*',
+                        'finish' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedRaw\\Controller',
+                        'action' => 'nmdbUncorrectedRaw',
+                    ),
+                ),
+            ),
+            'nmda-web-api.rpc.nmdb-uncorrected-group' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/uncorrected/group[/:start][/:finish][/:points]',
+                    'constraints' => array(
+                        'start' => '[0-9]*|all',
+                        'finish' => '[0-9]*|all',
+			'points' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller',
+                        'action' => 'nmdbUncorrectedGroup',
+                    ),
+                ),
+            ),
+        ),
     ),
     'zf-versioning' => array(
-        'uri' => array(),
+        'uri' => array(
+            0 => 'nmda-web-api.rpc.hola',
+            1 => 'nmda-web-api.rpc.nmdb-uncorrected-raw',
+            2 => 'nmda-web-api.rpc.nmdb-uncorrected-group',
+        ),
     ),
     'service_manager' => array(
         'factories' => array(),
     ),
     'zf-rest' => array(),
     'zf-content-negotiation' => array(
-        'controllers' => array(),
-        'accept_whitelist' => array(),
-        'content_type_whitelist' => array(),
+        'controllers' => array(
+            'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedRaw\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller' => 'Json',
+        ),
+        'accept_whitelist' => array(
+            'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedRaw\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
+        ),
+        'content_type_whitelist' => array(
+            'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedRaw\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller' => array(
+                0 => 'application/json',
+            ),
+        ),
     ),
     'zf-hal' => array(
         'metadata_map' => array(),
@@ -27,6 +104,36 @@ return array(
                 'filters' => array(),
                 'validators' => array(),
             ),
+        ),
+    ),
+    'controllers' => array(
+        'factories' => array(
+            'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => 'NmdaWebApi\\V1\\Rpc\\Hola\\HolaControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedRaw\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedRaw\\NmdbUncorrectedRawControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\NmdbUncorrectedGroupControllerFactory',
+        ),
+    ),
+    'zf-rpc' => array(
+        'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
+            'service_name' => 'Hola',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.hola',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedRaw\\Controller' => array(
+            'service_name' => 'nmdbUncorrectedRaw',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdb-uncorrected-raw',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller' => array(
+            'service_name' => 'nmdbUncorrectedGroup',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdb-uncorrected-group',
         ),
     ),
 );
