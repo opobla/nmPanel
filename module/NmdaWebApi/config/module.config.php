@@ -73,6 +73,16 @@ return array(
                     ),
                 ),
             ),
+            'nmda-web-api.rpc.nmdb-mark-null' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/marknull',
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller',
+                        'action' => 'nmdbMarkNull',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -82,6 +92,7 @@ return array(
             2 => 'nmda-web-api.rpc.nmdb-uncorrected-group',
             3 => 'nmda-web-api.rpc.nmdb-corrected-raw',
             4 => 'nmda-web-api.rpc.nmdb-corrected-group',
+            5 => 'nmda-web-api.rpc.nmdb-mark-null',
         ),
     ),
     'service_manager' => array(
@@ -95,6 +106,7 @@ return array(
             'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rpc\\NmdbCorrectedRaw\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rpc\\NmdbCorrectedGroup\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
@@ -122,6 +134,11 @@ return array(
                 1 => 'application/json',
                 2 => 'application/*+json',
             ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
         ),
         'content_type_whitelist' => array(
             'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
@@ -137,6 +154,9 @@ return array(
                 0 => 'application/vnd.nmda-web-api.v1+json',
             ),
             'NmdaWebApi\\V1\\Rpc\\NmdbCorrectedGroup\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller' => array(
                 0 => 'application/json',
             ),
         ),
@@ -162,6 +182,7 @@ return array(
             'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbUncorrectedGroup\\NmdbUncorrectedGroupControllerFactory',
             'NmdaWebApi\\V1\\Rpc\\NmdbCorrectedRaw\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbCorrectedRaw\\NmdbCorrectedRawControllerFactory',
             'NmdaWebApi\\V1\\Rpc\\NmdbCorrectedGroup\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbCorrectedGroup\\NmdbCorrectedGroupControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\NmdbMarkNullControllerFactory',
         ),
     ),
     'zf-rpc' => array(
@@ -199,6 +220,13 @@ return array(
                 0 => 'GET',
             ),
             'route_name' => 'nmda-web-api.rpc.nmdb-corrected-group',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller' => array(
+            'service_name' => 'nmdbMarkNull',
+            'http_methods' => array(
+                0 => 'POST',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdb-mark-null',
         ),
     ),
 );
