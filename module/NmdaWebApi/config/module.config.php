@@ -111,6 +111,20 @@ return array(
                     ),
                 ),
             ),
+            'nmda-web-api.rpc.nmdadb-channel-histogram' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdadb/channel/histogram[/:start][/:finish]',
+                    'constraints' => array(
+                        'start' => '[0-9]*|default',
+                        'finish' => '[0-9]*|default',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller',
+                        'action' => 'nmdadbChannelHistogram',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -123,6 +137,7 @@ return array(
             5 => 'nmda-web-api.rpc.nmdb-mark-null',
             6 => 'nmda-web-api.rpc.nmdadb-raw-data',
             7 => 'nmda-web-api.rpc.nmdadb-channel-stats',
+            8 => 'nmda-web-api.rpc.nmdadb-channel-histogram',
         ),
     ),
     'service_manager' => array(
@@ -139,6 +154,7 @@ return array(
             'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rpc\\NmdadbRawData\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelStats\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
@@ -181,6 +197,11 @@ return array(
                 1 => 'application/json',
                 2 => 'application/*+json',
             ),
+            'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
         ),
         'content_type_whitelist' => array(
             'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
@@ -206,6 +227,10 @@ return array(
             ),
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelStats\\Controller' => array(
                 0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
             ),
         ),
     ),
@@ -233,6 +258,7 @@ return array(
             'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbMarkNull\\NmdbMarkNullControllerFactory',
             'NmdaWebApi\\V1\\Rpc\\NmdadbRawData\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdadbRawData\\NmdadbRawDataControllerFactory',
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelStats\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdadbChannelStats\\NmdadbChannelStatsControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\NmdadbChannelHistogramControllerFactory',
         ),
     ),
     'zf-rpc' => array(
@@ -291,6 +317,13 @@ return array(
                 0 => 'GET',
             ),
             'route_name' => 'nmda-web-api.rpc.nmdadb-channel-stats',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => array(
+            'service_name' => 'nmdadbChannelHistogram',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdadb-channel-histogram',
         ),
     ),
 );
