@@ -125,6 +125,64 @@ return array(
                     ),
                 ),
             ),
+            'nmda-web-api.rpc.nmdb-original-raw' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/original/raw[/:start][/:finish]',
+                    'constraints' => array(
+                        'start' => '[0-9]*',
+                        'finish' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbOriginalRaw\\Controller',
+                        'action' => 'nmdbOriginalRaw',
+                    ),
+                ),
+            ),
+            'nmda-web-api.rpc.nmdb-original-group' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/original/group[/:start][/:finish][/:points]',
+                    'constraints' => array(
+                        'start' => '[0-9]*|all',
+                        'finish' => '[0-9]*|all',
+                        'points' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbOriginalGroup\\Controller',
+                        'action' => 'nmdbOriginalGroup',
+                    ),
+                ),
+            ),
+            'nmda-web-api.rpc.nmdb-revised-raw' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/revised/raw[/:start][/:finish]',
+                    'constraints' => array(
+                        'start' => '[0-9]*',
+                        'finish' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbRevisedRaw\\Controller',
+                        'action' => 'nmdbRevisedRaw',
+                    ),
+                ),
+            ),
+            'nmda-web-api.rpc.nmdb-revised-group' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nmdb/revised/group[/:start][/:finish][/:points]',
+                    'constraints' => array(
+                        'start' => '[0-9]*|all',
+                        'finish' => '[0-9]*|all',
+                        'points' => '[0-9]*',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbRevisedGroup\\Controller',
+                        'action' => 'nmdbRevisedGroup',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -138,6 +196,10 @@ return array(
             6 => 'nmda-web-api.rpc.nmdadb-raw-data',
             7 => 'nmda-web-api.rpc.nmdadb-channel-stats',
             8 => 'nmda-web-api.rpc.nmdadb-channel-histogram',
+            9 => 'nmda-web-api.rpc.nmdb-original-raw',
+            10 => 'nmda-web-api.rpc.nmdb-original-group',
+            11 => 'nmda-web-api.rpc.nmdb-revised-raw',
+            12 => 'nmda-web-api.rpc.nmdb-revised-group',
         ),
     ),
     'service_manager' => array(
@@ -155,6 +217,10 @@ return array(
             'NmdaWebApi\\V1\\Rpc\\NmdadbRawData\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelStats\\Controller' => 'Json',
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalRaw\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalGroup\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedRaw\\Controller' => 'Json',
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedGroup\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
@@ -202,6 +268,26 @@ return array(
                 1 => 'application/json',
                 2 => 'application/*+json',
             ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalRaw\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalGroup\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedRaw\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedGroup\\Controller' => array(
+                0 => 'application/vnd.nmda-web-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
         ),
         'content_type_whitelist' => array(
             'NmdaWebApi\\V1\\Rpc\\Hola\\Controller' => array(
@@ -229,8 +315,19 @@ return array(
                 0 => 'application/json',
             ),
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => array(
-                0 => 'application/vnd.nmda-web-api.v1+json',
-                1 => 'application/json',
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalRaw\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalGroup\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedRaw\\Controller' => array(
+                0 => 'application/json',
+            ),
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedGroup\\Controller' => array(
+                0 => 'application/json',
             ),
         ),
     ),
@@ -259,6 +356,10 @@ return array(
             'NmdaWebApi\\V1\\Rpc\\NmdadbRawData\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdadbRawData\\NmdadbRawDataControllerFactory',
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelStats\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdadbChannelStats\\NmdadbChannelStatsControllerFactory',
             'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdadbChannelHistogram\\NmdadbChannelHistogramControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalRaw\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbOriginalRaw\\NmdbOriginalRawControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdbOriginalGroup\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbOriginalGroup\\NmdbOriginalGroupControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedRaw\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbRevisedRaw\\NmdbRevisedRawControllerFactory',
+            'NmdaWebApi\\V1\\Rpc\\NmdbRevisedGroup\\Controller' => 'NmdaWebApi\\V1\\Rpc\\NmdbRevisedGroup\\NmdbRevisedGroupControllerFactory',
         ),
     ),
     'zf-rpc' => array(
@@ -324,6 +425,34 @@ return array(
                 0 => 'GET',
             ),
             'route_name' => 'nmda-web-api.rpc.nmdadb-channel-histogram',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdbOriginalRaw\\Controller' => array(
+            'service_name' => 'nmdbOriginalRaw',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdb-original-raw',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdbOriginalGroup\\Controller' => array(
+            'service_name' => 'nmdbOriginalGroup',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdb-original-group',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdbRevisedRaw\\Controller' => array(
+            'service_name' => 'nmdbRevisedRaw',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdb-revised-raw',
+        ),
+        'NmdaWebApi\\V1\\Rpc\\NmdbRevisedGroup\\Controller' => array(
+            'service_name' => 'nmdbRevisedGroup',
+            'http_methods' => array(
+                0 => 'GET',
+            ),
+            'route_name' => 'nmda-web-api.rpc.nmdb-revised-group',
         ),
     ),
 );
