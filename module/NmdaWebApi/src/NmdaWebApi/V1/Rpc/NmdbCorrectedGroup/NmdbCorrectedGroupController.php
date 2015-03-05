@@ -19,7 +19,7 @@ class NmdbCorrectedGroupController extends AbstractActionController
 			$data=$this->model->correctedGroupedAll($points);
 			$last=$this->model->getLast();
 		}else{
-			$interval =round(($finish-$start)/($points-1));
+			$interval =round(($finish-$start)/($points));
 		
 			$start = date("Y-m-d H:i:s",$start);
 			$finish = date("Y-m-d H:i:s",$finish);

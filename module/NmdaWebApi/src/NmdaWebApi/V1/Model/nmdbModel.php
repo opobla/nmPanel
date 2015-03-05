@@ -37,7 +37,7 @@ class nmdbModel {
 
 	avg(measured_pressure_mbar) as measured_pressure_mbar_avg
 
-	from (select CALM_ori.*, ROUND(UNIX_TIMESTAMP(start_date_time)/(".$interval.")) as timekey  from CALM_ori where start_date_time between '".$start."' and '".$finish."')as t1 group by timekey;";
+	from (select CALM_ori.*, (UNIX_TIMESTAMP(start_date_time) DIV (".$interval.")) as timekey  from CALM_ori where start_date_time between '".$start."' and '".$finish."')as t1 group by timekey;";
 
 	$result = $this->adapter->query($sql)->execute();
 
@@ -92,7 +92,7 @@ class nmdbModel {
 
 	avg(pressure_mbar) as pressure_mbar_avg
 
-	from(select t2.*,ROUND(UNIX_TIMESTAMP(t2.start_date_time)/(".$interval.")) as timekey from(SELECT o.start_date_time,
+	from(select t2.*, (UNIX_TIMESTAMP(t2.start_date_time) DIV (".$interval.")) as timekey from(SELECT o.start_date_time,
 	CASE WHEN r.start_date_time IS NULL THEN o.measured_uncorrected ELSE r.revised_uncorrected END AS uncorrected, 
 	CASE WHEN r.start_date_time IS NULL THEN o.measured_corr_for_pressure ELSE r.revised_corr_for_pressure END AS corr_for_pressure,
 	CASE WHEN r.start_date_time IS NULL THEN o.measured_corr_for_efficiency ELSE r.revised_corr_for_efficiency END AS corr_for_efficiency,
