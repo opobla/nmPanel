@@ -15,7 +15,7 @@ class nmdbModel {
     {
         $this->adapter = $adapter;
     }
-    public function uncorrectedRawInterval($start,$finish){
+    public function originalRawInterval($start,$finish){
 	$sql = "SELECT * FROM CALM_ori WHERE start_date_time between '".$start."' and '".$finish."';";
 	$result = $this->adapter->query($sql)->execute();
 
@@ -26,7 +26,7 @@ class nmdbModel {
 
     }
 
-    public function uncorrectedGroupedInterval($start,$finish,$interval){
+    public function originalGroupedInterval($start,$finish,$interval){
 
 	$sql = "SELECT start_date_time as time, 
 	avg(measured_uncorrected)+std(measured_uncorrected) as measured_uncorrected_open, max(measured_uncorrected) as measured_uncorrected_max, min(measured_uncorrected) as measured_uncorrected_min, avg(measured_uncorrected)-std(measured_uncorrected) as measured_uncorrected_close, 
@@ -48,7 +48,7 @@ class nmdbModel {
 
     }
 
-    public function uncorrectedGroupedAll($points){
+    public function originalGroupedAll($points){
 	$sqlFirst= "SELECT start_date_time FROM CALM_ori LIMIT 1";
 	$sqlLast= "SELECT start_date_time FROM CALM_ori ORDER  BY start_date_time DESC LIMIT 1";
 
@@ -64,9 +64,9 @@ class nmdbModel {
 
 	$interval=round((strtotime($finish)-strtotime($start))/($points-1));
 
-	return $this->uncorrectedGroupedInterval($start,$finish,$interval);
+	return $this->originalGroupedInterval($start,$finish,$interval);
     }
-    public function correctedRawInterval($start,$finish){	
+    public function revisedRawInterval($start,$finish){	
 	$sql = "SELECT o.start_date_time,
 		CASE WHEN r.start_date_time IS NULL THEN o.measured_uncorrected ELSE r.revised_uncorrected END AS uncorrected, 
 		CASE WHEN r.start_date_time IS NULL THEN o.measured_corr_for_pressure ELSE r.revised_corr_for_pressure END AS corr_for_pressure,
@@ -82,7 +82,7 @@ class nmdbModel {
 	return $resultSet;
     }
 
-    public function correctedGroupedInterval($start,$finish,$interval){
+    public function revisedGroupedInterval($start,$finish,$interval){
 
 	$sql = "select start_date_time as time, 
 	avg(uncorrected)+std(uncorrected) as uncorrected_open, max(uncorrected) as uncorrected_max, min(uncorrected) as uncorrected_min, avg(uncorrected)-std(uncorrected) as uncorrected_close, 
@@ -108,7 +108,7 @@ FROM CALM_ori o LEFT JOIN CALM_rev r ON o.start_date_time = r.start_date_time WH
 	return $resultSet;
     }
 
-    public function correctedGroupedAll($points){
+    public function revisedGroupedAll($points){
 	$sqlFirst= "SELECT start_date_time FROM CALM_ori LIMIT 1";
 	$sqlLast= "SELECT start_date_time FROM CALM_ori ORDER  BY start_date_time DESC LIMIT 1";
 
@@ -124,7 +124,7 @@ FROM CALM_ori o LEFT JOIN CALM_rev r ON o.start_date_time = r.start_date_time WH
 
 	$interval=round((strtotime($finish)-strtotime($start))/($points-1));
 
-	return $this->correctedGroupedInterval($start,$finish,$interval);
+	return $this->revisedGroupedInterval($start,$finish,$interval);
     }
 
     public function marknull($dates){
@@ -143,5 +143,4 @@ FROM CALM_ori o LEFT JOIN CALM_rev r ON o.start_date_time = r.start_date_time WH
 	$finish= $resultSet->current()->start_date_time;
 	return $finish;
     }
-
 }

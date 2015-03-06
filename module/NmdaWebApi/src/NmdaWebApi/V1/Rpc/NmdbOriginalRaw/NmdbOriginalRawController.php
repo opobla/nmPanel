@@ -18,7 +18,7 @@ class NmdbOriginalRawController extends AbstractActionController
 		$start = date("Y-m-d H:i:s",$start);
 		$finish = date("Y-m-d H:i:s",$finish);
 
-		$data=$this->model->uncorrectedRawInterval($start,$finish);
+		$data=$this->model->originalRawInterval($start,$finish);
 		$dataHs=array();
 
 		foreach ($data as $row){

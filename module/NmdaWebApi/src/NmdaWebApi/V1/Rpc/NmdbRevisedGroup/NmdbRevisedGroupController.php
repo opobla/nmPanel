@@ -16,14 +16,14 @@ class NmdbRevisedGroupController extends AbstractActionController
 		$finish=$this->getEvent()->getRouteMatch()->getParam('finish');
 		$points=$this->getEvent()->getRouteMatch()->getParam('points');
 		if($start=='all' || $finish=='all'){
-			$data=$this->model->correctedGroupedAll($points);
+			$data=$this->model->revisedGroupedAll($points);
 			$last=$this->model->getLast();
 		}else{
 			$interval =round(($finish-$start)/($points));
 		
 			$start = date("Y-m-d H:i:s",$start);
 			$finish = date("Y-m-d H:i:s",$finish);
-			$data=$this->model->correctedGroupedInterval($start,$finish,$interval);
+			$data=$this->model->revisedGroupedInterval($start,$finish,$interval);
 		}
 		$dataHs=array();
 		foreach ($data as $row){

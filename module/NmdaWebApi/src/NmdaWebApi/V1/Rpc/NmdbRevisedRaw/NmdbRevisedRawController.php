@@ -16,7 +16,7 @@ class NmdbRevisedRawController extends AbstractActionController
 		$finish=$this->getEvent()->getRouteMatch()->getParam('finish');
 		$start = date("Y-m-d H:i:s",$start);
 		$finish = date("Y-m-d H:i:s",$finish);
-		$data=$this->model->correctedRawInterval($start,$finish);
+		$data=$this->model->revisedRawInterval($start,$finish);
 		$dataHs=array();
 		
 		foreach ($data as $row){
